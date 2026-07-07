@@ -50,6 +50,8 @@ Docker baut und startet die neue Version
 
 ---
 
+```text
+
 ## 3. Kubernetes-Einstieg mit minikube
 
 Am Ende des Kurses kann die Anwendung optional auch mit Kubernetes gestartet werden.
@@ -59,3 +61,5 @@ Wichtig:
 ```text
 Docker Compose ist der Pflichtteil des Kurses.
 minikube und Kubernetes sind ein Einstieg am Kursende.
+
+```text
