@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Spring Boot verwaltet passende Versionen der wichtigsten Abhaengigkeiten. -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.3</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>de.kurs</groupId>
+    <artifactId>springboot-devops-course</artifactId>
+    <version>0.1.0</version>
+    <name>springboot-devops-course</name>
+    <description>Einfache Spring-Boot-Anwendung fuer DevOps-, Docker- und CI/CD-Unterricht</description>
+
+    <properties>
+        <!-- Java 21 passt gut zum Kurs, weil es eine aktuelle LTS-Version ist. -->
+        <java.version>21</java.version>
+    </properties>
+
+    <dependencies>
+        <!-- Web-Starter: REST-Controller, eingebetteter Webserver und JSON-Verarbeitung. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Actuator: Health-Endpunkt fuer Betrieb, Docker-Healthchecks und Kubernetes-Probes. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Test-Starter: JUnit, AssertJ und Spring-Testunterstuetzung. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Baut ein ausfuehrbares Spring-Boot-JAR. -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

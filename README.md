@@ -1,64 +1,52 @@
-# Spring Boot DevOps Kursprojekt
+# Spring Boot DevOps Course
 
-Dieses Repository ist Teil eines 10-tägigen DevOps- und Deployment-Kurses für Umschülerinnen und Umschüler.
+Dieses Repository ist eine einfache Kursanwendung fuer Umschuelerinnen und Umschueler.
+Sie wird in einer Linux-VM bearbeitet, nach GitHub gepusht, in GitHub Actions getestet und
+anschliessend als Docker-Container auf der Linux-VM bereitgestellt.
 
-Ziel des Projekts ist es, eine einfache Spring-Boot-Anwendung in einer Linux-VM zu entwickeln, mit Git und GitHub zu versionieren, über Pull Requests zu bearbeiten, mit GitHub Actions automatisch zu testen und anschließend mit Docker auf der Linux-VM bereitzustellen.
+## Kernvariante fuer 10 Tage
 
----
+Die Kernvariante nutzt **keine Container Registry**. Das ist bewusst einfacher:
 
-## 1. Ziel des Projekts
+1. In der Linux-VM entwickeln.
+2. Aenderung in Feature-Branch committen.
+3. Pull Request in GitHub erstellen.
+4. GitHub Actions testet und baut.
+5. Nach Merge in `main`: in der Linux-VM `git pull` und `docker compose up -d --build`.
 
-Am Ende dieses Projekts sollen die Teilnehmenden verstanden haben:
+## Optional: GHCR
 
-- wie ein Spring-Boot-Projekt aufgebaut ist,
-- wie man mit Git arbeitet,
-- wie man Änderungen über Branches und Pull Requests einreicht,
-- wie eine GitHub-Actions-Pipeline funktioniert,
-- wie Maven eine Java-Anwendung baut und testet,
-- wie aus der Anwendung ein Docker-Image entsteht,
-- wie die Anwendung mit Docker Compose gestartet wird,
-- wie man Logs und Healthchecks zur Fehleranalyse verwendet.
+GitHub Container Registry ist realistisch, aber fuer Anfaenger zusaetzlich komplex.
+Die Datei `.github/workflows/ci-ghcr.yml.disabled` kann als Dozenten-Demo genutzt werden.
 
----
+## Lokaler Start
 
-## 2. DevOps-Ablauf im Kurs
-
-Der Ablauf im Kurs sieht so aus:
-
-```text
-Linux-VM
-  ↓
-Code ändern
-  ↓
-lokal testen
-  ↓
-git add / git commit
-  ↓
-git push
-  ↓
-Pull Request in GitHub erstellen
-  ↓
-GitHub Actions Pipeline läuft automatisch
-  ↓
-Tests und Build werden geprüft
-  ↓
-Pull Request wird gemerged
-  ↓
-Linux-VM aktualisiert den Code mit git pull
-  ↓
-Docker baut und startet die neue Version
-
----
-
+```bash
+mvn -B test package
+mvn spring-boot:run
+curl http://localhost:8080/actuator/health
 ```
 
-## 3. Kubernetes-Einstieg mit minikube
+## Docker-Start
 
-Am Ende des Kurses kann die Anwendung optional auch mit Kubernetes gestartet werden.
+```bash
+docker compose up -d --build
+docker compose ps
+curl http://localhost:8080/actuator/health
+```
 
-Wichtig:
+## Deployment-Automatisierung
 
-```text
-Docker Compose ist der Pflichtteil des Kurses.
-minikube und Kubernetes sind ein Einstieg am Kursende.
+```bash
+bash scripts/deploy_local_build.sh
+```
 
+## API testen
+
+```bash
+curl "http://localhost:8080/api/difference?oldCounter=100&newCounter=135"
+
+curl -X POST http://localhost:8080/api/readings \
+  -H "Content-Type: application/json" \
+  -d '{"meterNumber":"M-100","oldCounter":100,"newCounter":135}'
+```
